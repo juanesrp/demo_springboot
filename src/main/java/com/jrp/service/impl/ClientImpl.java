@@ -8,12 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ClientImpl implements IClientService {
 
     @Autowired
     private ClientDao clientDao;
 
+
+    @Override
+    public List<Client> listAll() {
+        return (List) clientDao.findAll();
+    }
 
     @Transactional
     @Override

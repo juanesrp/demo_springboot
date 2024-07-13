@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -19,6 +20,29 @@ public class ClientController   {
 
     @Autowired
     private IClientService clientService;
+
+    @GetMapping("clients")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> showAll(){
+        List<Client> getClients= clientService.listAll();
+
+        if(getClients.isEmpty()){
+            return new ResponseEntity<>(
+                    ResponseMessage.builder()
+                            .message("No records found")
+                            .object(null)
+                            .build(),
+                    HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(
+                ResponseMessage.builder()
+                        .message("")
+                        .object(getClients)
+                        .build(),
+                HttpStatus.OK);
+    }
+
 
     @PostMapping("client")
     public ResponseEntity<?> create(@RequestBody ClientDto clientDto){
